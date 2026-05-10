@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>FactCheckAI Popup</title>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <header class="popup-header">
+            <i class="fa-solid fa-shield-halved logo-icon"></i>
+            <div class="logo-text">
+                <h2>FactCheck<span>AI</span></h2>
+                <p>AI Agent & Graph-RAG Verifier</p>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="popup-body">
+            <!-- Text area to verify -->
+            <div class="input-section">
+                <textarea id="popupClaimInput" placeholder="Nhập hoặc dán văn bản bôi đen cần kiểm chứng tại đây..." rows="3"></textarea>
+                <button id="popupVerifyBtn" class="btn-verify">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Kiểm chứng ngay
+                </button>
+            </div>
+
+            <!-- Streaming Thoughts -->
+            <div class="terminal-section" id="popupTerminal" style="display: none;">
+                <div class="term-header">
+                    <span><i class="fa-solid fa-terminal"></i> Tiến trình suy nghĩ:</span>
+                </div>
+                <div class="term-body" id="popupTerminalBody"></div>
+            </div>
+
+            <!-- Verdict Card -->
+            <div class="verdict-section hidden" id="popupVerdictCard">
+                <div class="verdict-badge" id="popupVerdictBadge">CHƯA XÁC MINH</div>
+                <div class="verdict-confidence">Độ tin cậy: <strong id="popupConfidence">0%</strong></div>
+                <div class="verdict-explanation">
+                    <p id="popupExplanation">...</p>
+                </div>
+                <div class="sources-title"><i class="fa-solid fa-link"></i> Nguồn chính thống:</div>
+                <div class="sources-container" id="popupSources"></div>
+            </div>
+        </main>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

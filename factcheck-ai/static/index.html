@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FactCheckAI - Hệ thống xác minh tin tức AI & Graph-RAG</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <i class="fa-solid fa-shield-halved logo-icon"></i>
+                <div class="logo-text">
+                    <h1>FactCheck<span>AI</span></h1>
+                    <p>AI Agent & Graph-RAG Information Verifier</p>
+                </div>
+            </div>
+            <div class="connection-status" id="connectionStatus">
+                <span class="pulse-dot"></span>
+                <span>Hệ thống sẵn sàng</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace Grid -->
+        <main class="workspace-grid">
+            <!-- Left Panel: Input & Reasoning -->
+            <section class="panel-left">
+                <!-- Step 1: Input Area -->
+                <div class="card card-input">
+                    <div class="card-header">
+                        <i class="fa-solid fa-keyboard header-icon"></i>
+                        <h2>Nhập tin tức cần kiểm chứng</h2>
+                    </div>
+                    <div class="input-wrapper">
+                        <textarea id="claimInput" placeholder="Bôi đen hoặc nhập đoạn văn bản bạn nghi ngờ vào đây (ví dụ: 'Thành phố Hồ Chí Minh có tuyết rơi...')" rows="3"></textarea>
+                        <button id="verifyBtn" class="btn btn-primary">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Xác minh ngay
+                        </button>
+                    </div>
+                    <!-- Sample Claim Pills -->
+                    <div class="sample-claims">
+                        <span>Ví dụ mẫu:</span>
+                        <div class="pills-container">
+                            <button class="pill pill-true" onclick="fillSample(0)">
+                                <i class="fa-solid fa-circle-check"></i> Đề án bán dẫn 2030 (Đúng)
+                            </button>
+                            <button class="pill pill-false" onclick="fillSample(1)">
+                                <i class="fa-solid fa-circle-xmark"></i> Tuyết rơi tại TP.HCM (Sai)
+                            </button>
+                            <button class="pill pill-pending" onclick="fillSample(2)">
+                                <i class="fa-solid fa-circle-minus"></i> Sinh vật ngoài hành tinh ISS (Chờ)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Live Reasoning Terminal (Thinking Process - Section 4.1) -->
+                <div class="card card-terminal">
+                    <div class="card-header">
+                        <i class="fa-solid fa-terminal header-icon"></i>
+                        <h2>Luồng suy nghĩ của AI Agent (Real-time Stream)</h2>
+                        <div class="terminal-dots">
+                            <span class="dot-red"></span>
+                            <span class="dot-yellow"></span>
+                            <span class="dot-green"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="terminal-line system-msg">
+                            <span class="term-time">[15:45:52]</span> <span class="term-prefix">SYSTEM:</span> Chào mừng bạn đến với FactCheckAI. Hãy nhập tuyên bố cần kiểm định phía trên.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Graph RAG & Verdict -->
+            <section class="panel-right">
+                <!-- Step 3: Graph-RAG Visualizer (Section 5.1) -->
+                <div class="card card-graph">
+                    <div class="card-header">
+                        <i class="fa-solid fa-diagram-project header-icon"></i>
+                        <h2>Trực quan hóa Đồ thị Tri thức (Graph-RAG)</h2>
+                        <span class="badge">Graph-RAG Core v1.0</span>
+                    </div>
+                    <div class="graph-container">
+                        <svg id="graphSvg" width="100%" height="100%"></svg>
+                        <div class="graph-legend" id="graphLegend">
+                            <span class="legend-item"><span class="legend-dot loc"></span>Địa điểm</span>
+                            <span class="legend-item"><span class="legend-dot org"></span>Tổ chức</span>
+                            <span class="legend-item"><span class="legend-dot evt"></span>Sự kiện</span>
+                            <span class="legend-item"><span class="legend-dot qty"></span>Số lượng</span>
+                            <span class="legend-item"><span class="legend-dot cpt"></span>Khái niệm</span>
+                        </div>
+                        <div class="no-graph-placeholder" id="graphPlaceholder">
+                            <i class="fa-solid fa-network-wired"></i>
+                            <p>Đồ thị tri thức sẽ được dựng tự động khi Agent trích xuất thực thể để đối chiếu logic chéo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Final Verdict Card (Premium Pop-out UI) -->
+                <div class="card card-verdict hidden" id="verdictCard">
+                    <div class="verdict-banner" id="verdictBanner">
+                        <div class="verdict-title-wrapper">
+                            <i class="fa-solid fa-circle-question" id="verdictIcon"></i>
+                            <h3 id="verdictTitle">CHƯA XÁC MINH</h3>
+                        </div>
+                        <div class="confidence-score">
+                            <span class="score-label">Độ tin cậy</span>
+                            <span class="score-val" id="confidenceVal">0%</span>
+                        </div>
+                    </div>
+                    <div class="verdict-body">
+                        <div class="verdict-section">
+                            <h4><i class="fa-solid fa-quote-left"></i> Nội dung kiểm chứng:</h4>
+                            <p class="claim-text" id="verdictClaim">...</p>
+                        </div>
+                        <div class="verdict-section">
+                            <h4><i class="fa-solid fa-circle-info"></i> Kết luận & Giải thích chi tiết:</h4>
+                            <p class="explanation-text" id="verdictExplanation">...</p>
+                        </div>
+                        <div class="verdict-section">
+                            <h4><i class="fa-solid fa-rectangle-list"></i> Các nguồn Whitelist đối chiếu chính thống:</h4>
+                            <div class="sources-list" id="verdictSources">
+                                <!-- Sources will be appended here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Controls Dashboard -->
+        <footer class="app-dashboard">
+            <!-- Whitelist Manager -->
+            <div class="dashboard-section card-whitelist">
+                <div class="sec-header">
+                    <h3><i class="fa-solid fa-globe"></i> Whitelist Domains (Vùng xanh nguồn tin)</h3>
+                    <div class="add-domain-form">
+                        <input type="text" id="newDomainInput" placeholder="thêm-tên-miền.vn">
+                        <button id="addDomainBtn" class="btn btn-sm btn-success"><i class="fa-solid fa-plus"></i></button>
+                        <button id="resetWhitelistBtn" class="btn btn-sm btn-danger" title="Khôi phục Whitelist mặc định"><i class="fa-solid fa-rotate-left"></i></button>
+                    </div>
+                </div>
+                <div class="domains-grid" id="domainsGrid">
+                    <!-- Whitelisted domains pills -->
+                </div>
+            </div>
+
+            <!-- Cache Monitor -->
+            <div class="dashboard-section card-cache">
+                <div class="sec-header">
+                    <h3><i class="fa-solid fa-database"></i> Bộ nhớ đệm Caching & Pre-indexing (Section 5.4)</h3>
+                    <button id="clearCacheBtn" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash-can"></i> Xóa Cache</button>
+                </div>
+                <div class="cache-stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-num" id="cacheTotal">0</span>
+                        <span class="stat-label">Tổng số bản ghi</span>
+                    </div>
+                    <div class="stat-box val-green">
+                        <span class="stat-num" id="cacheVerified">0</span>
+                        <span class="stat-label">ĐÚNG (Verified)</span>
+                    </div>
+                    <div class="stat-box val-red">
+                        <span class="stat-num" id="cacheFalse">0</span>
+                        <span class="stat-label">SAI (False)</span>
+                    </div>
+                    <div class="stat-box val-yellow">
+                        <span class="stat-num" id="cachePending">0</span>
+                        <span class="stat-label">CHỜ XÁC MINH</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
