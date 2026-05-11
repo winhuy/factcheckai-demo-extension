@@ -564,6 +564,71 @@ body {
     color: var(--text-primary);
 }
 
+/* Source Category Headers */
+.source-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 8px 0 4px 0;
+    margin-top: 4px;
+}
+
+.source-trusted-header {
+    color: #10b981;
+}
+
+.source-unverified-header {
+    color: #f59e0b;
+}
+
+/* Trusted Source Items (GREEN) */
+.source-item-trusted {
+    border-left: 3px solid #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.source-item-trusted:hover {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: #34d399;
+}
+
+.source-domain-trusted {
+    color: #34d399 !important;
+}
+
+.source-link-trusted {
+    color: #10b981 !important;
+}
+
+.source-link-trusted:hover {
+    color: #34d399 !important;
+}
+
+/* Unverified Source Items (YELLOW) */
+.source-item-unverified {
+    border-left: 3px solid #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.source-item-unverified:hover {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #fbbf24;
+}
+
+.source-domain-unverified {
+    color: #fbbf24 !important;
+}
+
+.source-link-unverified {
+    color: #f59e0b !important;
+}
+
+.source-link-unverified:hover {
+    color: #fbbf24 !important;
+}
+
 /* Bottom Controls Dashboard */
 .app-dashboard {
     display: grid;

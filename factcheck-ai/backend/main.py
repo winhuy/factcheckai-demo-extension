@@ -6,13 +6,13 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import List
 
-from .config import whitelist_domains, DEFAULT_WHITELIST_DOMAINS, PORT, HOST
+from .config import whitelist_domains, trusted_domains, DEFAULT_TRUSTED_DOMAINS, PORT, HOST
 from .cache import fact_cache
 from .agent import fact_agent
 
 app = FastAPI(
     title="FactCheckAI Backend",
-    description="Hệ thống xác minh thông tin dựa trên AI Agent & RAG với các nguồn Whitelist chính thống",
+    description="Hệ thống xác minh thông tin dựa trên AI Agent & RAG - Tìm kiếm toàn bộ Internet",
     version="1.0.0"
 )
 
@@ -50,7 +50,7 @@ async def get_whitelist():
     """
     Lấy danh sách các tên miền Whitelist hiện tại.
     """
-    return {"domains": whitelist_domains}
+    return {"domains": trusted_domains}
 
 @app.post("/api/whitelist")
 async def add_to_whitelist(request: WhitelistAddRequest):
@@ -60,11 +60,11 @@ async def add_to_whitelist(request: WhitelistAddRequest):
     domain = request.domain.strip().lower()
     if not domain:
         raise HTTPException(status_code=400, detail="Tên miền không hợp lệ")
-    if domain in whitelist_domains:
-        return {"message": "Tên miền đã tồn tại trong Whitelist", "domains": whitelist_domains}
+    if domain in trusted_domains:
+        return {"message": "Tên miền đã tồn tại trong danh sách nguồn tin cậy", "domains": trusted_domains}
     
-    whitelist_domains.append(domain)
-    return {"message": f"Đã thêm thành công tên miền {domain}", "domains": whitelist_domains}
+    trusted_domains.append(domain)
+    return {"message": f"Đã thêm thành công tên miền {domain}", "domains": trusted_domains}
 
 @app.delete("/api/whitelist/{domain}")
 async def delete_from_whitelist(domain: str):
@@ -72,21 +72,21 @@ async def delete_from_whitelist(domain: str):
     Xóa một tên miền khỏi Whitelist.
     """
     domain_clean = domain.strip().lower()
-    if domain_clean not in whitelist_domains:
-        raise HTTPException(status_code=404, detail="Không tìm thấy tên miền này trong Whitelist")
+    if domain_clean not in trusted_domains:
+        raise HTTPException(status_code=404, detail="Không tìm thấy tên miền này trong danh sách nguồn tin cậy")
     
-    whitelist_domains.remove(domain_clean)
-    return {"message": f"Đã xóa thành công tên miền {domain_clean}", "domains": whitelist_domains}
+    trusted_domains.remove(domain_clean)
+    return {"message": f"Đã xóa thành công tên miền {domain_clean}", "domains": trusted_domains}
 
 @app.post("/api/whitelist/reset")
 async def reset_whitelist():
     """
     Reset danh sách Whitelist về mặc định.
     """
-    global whitelist_domains
-    whitelist_domains.clear()
-    whitelist_domains.extend(DEFAULT_WHITELIST_DOMAINS)
-    return {"message": "Đã reset Whitelist về danh sách mặc định", "domains": whitelist_domains}
+    global trusted_domains
+    trusted_domains.clear()
+    trusted_domains.extend(DEFAULT_TRUSTED_DOMAINS)
+    return {"message": "Đã reset danh sách nguồn tin cậy về mặc định", "domains": trusted_domains}
 
 @app.get("/api/cache-stats")
 async def get_cache_stats():

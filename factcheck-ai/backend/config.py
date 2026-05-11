@@ -3,8 +3,10 @@ import os
 # API Configurations
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 
-# Whitelist domains for Vietnamese news & official government portals
-DEFAULT_WHITELIST_DOMAINS = [
+# Trusted domains for Vietnamese news & official government portals
+# These are used for CATEGORIZATION only (green = verified source, yellow = unverified)
+# Search now covers the entire internet - these domains help visually tag source reliability
+DEFAULT_TRUSTED_DOMAINS = [
     "vnexpress.net",
     "tuoitre.vn",
     "thanhnien.vn",
@@ -15,11 +17,23 @@ DEFAULT_WHITELIST_DOMAINS = [
     "vietnamnet.vn",
     "laodong.vn",
     "qdnd.vn",
-    "vov.vn"
+    "vov.vn",
+    # International trusted sources
+    "reuters.com",
+    "apnews.com",
+    "bbc.com",
+    "bbc.co.uk",
+    "nytimes.com",
+    "who.int",
+    "un.org",
+    "wikipedia.org",
+    "gov.vn"
 ]
 
 # We support adding/removing domains dynamically at runtime, so we can keep a dynamic list
-whitelist_domains = list(DEFAULT_WHITELIST_DOMAINS)
+# Also keep backward-compatible alias
+trusted_domains = list(DEFAULT_TRUSTED_DOMAINS)
+whitelist_domains = trusted_domains  # backward-compatible alias
 
 # Cache Configurations
 CACHE_FILE = "factcheck_cache.json"

@@ -213,8 +213,8 @@ function displayVerdict(data) {
     
     sourcesDiv.innerHTML = '';
     if (data.sources && data.sources.length > 0) {
-        const official = data.sources.filter(s => s.is_whitelist);
-        const unverified = data.sources.filter(s => !s.is_whitelist);
+        const official = data.sources.filter(s => s.is_whitelist || s.is_trusted);
+        const unverified = data.sources.filter(s => !(s.is_whitelist || s.is_trusted));
         
         if (official.length > 0) {
             const header = document.createElement('div');
@@ -241,8 +241,8 @@ function displayVerdict(data) {
             const header = document.createElement('div');
             header.style.margin = '14px 0 4px 0';
             header.style.fontSize = '12px';
-            header.style.color = '#94a3b8';
-            header.innerHTML = '🔗 Tham khảo khác (Chưa xác minh)';
+            header.style.color = '#fbbf24';
+            header.innerHTML = '⚠️ Nguồn Chưa Xác Minh';
             sourcesDiv.appendChild(header);
             
             const wrap = document.createElement('div');

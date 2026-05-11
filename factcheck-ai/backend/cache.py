@@ -37,15 +37,21 @@ class FactCheckCache:
 
     def get(self, claim: str) -> Optional[Dict[str, Any]]:
         normalized = self._normalize_claim(claim)
-        # Check for exact or highly similar keyword match
+        if not normalized or len(normalized) < 3:
+            return None
+        # Check for exact match
         if normalized in self.cache:
             return self.cache[normalized]
         
-        # Simple fuzzy check (if claim is a substring or vice-versa)
+        # Stricter fuzzy check: both must be substantial length and similar size
         for cached_normalized, data in self.cache.items():
-            if len(normalized) > 15 and len(cached_normalized) > 15:
-                if normalized in cached_normalized or cached_normalized in normalized:
-                    return data
+            if len(normalized) > 30 and len(cached_normalized) > 30:
+                shorter = min(len(normalized), len(cached_normalized))
+                longer = max(len(normalized), len(cached_normalized))
+                # Only match if the shorter is at least 70% of the longer
+                if shorter / longer > 0.7:
+                    if normalized in cached_normalized or cached_normalized in normalized:
+                        return data
         return None
 
     def set(self, claim: str, result: Dict[str, Any]):

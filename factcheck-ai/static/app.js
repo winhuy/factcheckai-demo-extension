@@ -101,7 +101,7 @@ async function addDomain() {
         const data = await response.json();
         renderWhitelist(data.domains);
         input.value = "";
-        logToTerminal(`Đã thêm thành công tên miền \`${domain}\` vào danh sách Whitelist.`, "system");
+        logToTerminal(`Đã thêm thành công tên miền \`${domain}\` vào danh sách nguồn tin cậy.`, "system");
     } catch (err) {
         console.error("Error adding domain:", err);
     }
@@ -112,7 +112,7 @@ async function removeDomain(domain) {
         const response = await fetch(`${API_BASE}/api/whitelist/${domain}`, { method: "DELETE" });
         const data = await response.json();
         renderWhitelist(data.domains);
-        logToTerminal(`Đã gỡ bỏ tên miền \`${domain}\` khỏi danh sách Whitelist.`, "system");
+        logToTerminal(`Đã gỡ bỏ tên miền \`${domain}\` khỏi danh sách nguồn tin cậy.`, "system");
     } catch (err) {
         console.error("Error removing domain:", err);
     }
@@ -123,7 +123,7 @@ async function resetWhitelist() {
         const response = await fetch(`${API_BASE}/api/whitelist/reset`, { method: "POST" });
         const data = await response.json();
         renderWhitelist(data.domains);
-        logToTerminal("Đã đặt lại danh sách Whitelist mặc định.", "system");
+        logToTerminal("Đã đặt lại danh sách nguồn tin cậy mặc định.", "system");
     } catch (err) {
         console.error("Error resetting whitelist:", err);
     }
@@ -258,22 +258,56 @@ function renderVerdict(result) {
     sourcesContainer.innerHTML = "";
     
     if (result.sources && result.sources.length > 0) {
-        result.sources.forEach(source => {
-            const item = document.createElement("div");
-            item.className = "source-item";
-            item.innerHTML = `
-                <div class="source-info">
-                    <span class="source-title">${source.title}</span>
-                    <span class="source-domain">${source.domain}</span>
-                </div>
-                <a href="${source.url}" target="_blank" class="source-link" title="Đến bài báo kiểm chứng">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </a>
-            `;
-            sourcesContainer.appendChild(item);
-        });
+        const trusted = result.sources.filter(s => s.is_whitelist || s.is_trusted);
+        const unverified = result.sources.filter(s => !(s.is_whitelist || s.is_trusted));
+        
+        // Render trusted sources (GREEN)
+        if (trusted.length > 0) {
+            const trustedHeader = document.createElement('div');
+            trustedHeader.className = 'source-category-header source-trusted-header';
+            trustedHeader.innerHTML = `<i class="fa-solid fa-circle-check"></i> Nguồn Chính Thống (${trusted.length})`;
+            sourcesContainer.appendChild(trustedHeader);
+            
+            trusted.forEach(source => {
+                const item = document.createElement('div');
+                item.className = 'source-item source-item-trusted';
+                item.innerHTML = `
+                    <div class="source-info">
+                        <span class="source-title">${source.title}</span>
+                        <span class="source-domain source-domain-trusted"><i class="fa-solid fa-shield-halved"></i> ${source.domain}</span>
+                    </div>
+                    <a href="${source.url}" target="_blank" class="source-link source-link-trusted" title="Đến nguồn kiểm chứng">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                `;
+                sourcesContainer.appendChild(item);
+            });
+        }
+        
+        // Render unverified sources (YELLOW)
+        if (unverified.length > 0) {
+            const unverifiedHeader = document.createElement('div');
+            unverifiedHeader.className = 'source-category-header source-unverified-header';
+            unverifiedHeader.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Nguồn Chưa Xác Minh (${unverified.length})`;
+            sourcesContainer.appendChild(unverifiedHeader);
+            
+            unverified.forEach(source => {
+                const item = document.createElement('div');
+                item.className = 'source-item source-item-unverified';
+                item.innerHTML = `
+                    <div class="source-info">
+                        <span class="source-title">${source.title}</span>
+                        <span class="source-domain source-domain-unverified"><i class="fa-solid fa-globe"></i> ${source.domain}</span>
+                    </div>
+                    <a href="${source.url}" target="_blank" class="source-link source-link-unverified" title="Đến nguồn tham khảo">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                `;
+                sourcesContainer.appendChild(item);
+            });
+        }
     } else {
-        sourcesContainer.innerHTML = `<div class="source-item"><span class="source-title">Không tìm thấy nguồn kiểm chứng từ Whitelist</span></div>`;
+        sourcesContainer.innerHTML = `<div class="source-item"><span class="source-title">Không tìm thấy nguồn kiểm chứng từ Internet</span></div>`;
     }
     
     card.classList.remove("hidden");

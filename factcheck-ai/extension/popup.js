@@ -145,10 +145,20 @@ function renderPopupVerdict(result) {
     if (result.sources && result.sources.length > 0) {
         result.sources.forEach(source => {
             const item = document.createElement("div");
+            const isTrusted = source.is_whitelist || source.is_trusted;
             item.className = "pop-source-item";
-            const isWhitelisted = source.is_whitelist ? `<span style="color:#10b981; font-size:10px; font-weight:bold; margin-right:4px;">[✓]</span>` : "";
+            if (isTrusted) {
+                item.style.borderLeft = '3px solid #10b981';
+                item.style.background = 'rgba(16, 185, 129, 0.08)';
+            } else {
+                item.style.borderLeft = '3px solid #f59e0b';
+                item.style.background = 'rgba(245, 158, 11, 0.08)';
+            }
+            const badge = isTrusted 
+                ? `<span style="color:#10b981; font-size:10px; font-weight:bold; margin-right:4px;">[✓ Chính thống]</span>` 
+                : `<span style="color:#fbbf24; font-size:10px; font-weight:bold; margin-right:4px;">[⚠ Chưa xác minh]</span>`;
             item.innerHTML = `
-                <span>${isWhitelisted}${source.title.substring(0, 32)}... (${source.domain})</span>
+                <span>${badge}${source.title.substring(0, 32)}... (${source.domain})</span>
                 <a href="${source.url}" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             `;
             sourcesContainer.appendChild(item);
