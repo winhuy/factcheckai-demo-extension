@@ -216,487 +216,126 @@
             ]
         }
     },
-    "tổng bí thư tô lâm sinh 481965": {
-        "claim": "Tổng bí thư Tô Lâm sinh 4/8/1965",
-        "verdict": "FALSE",
-        "confidence": 90,
-        "sources": [
-            {
-                "domain": "vi.wikipedia.org",
-                "url": "https://vi.wikipedia.org/wiki/Tô_Lâm",
-                "title": "Tô Lâm - Wikipedia tiếng Việt",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "xaydungchinhsach.chinhphu.vn",
-                "url": "https://xaydungchinhsach.chinhphu.vn/tom-tat-tieu-su-tong-bi-thu-chu-tich-nuoc-to-lam-119260407093234175.htm",
-                "title": "Tóm Tắt Tiểu Sử Tổng Bí Thư, Chủ Tịch Nước Tô Lâm",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "vietnamnet.vn",
-                "url": "https://vietnamnet.vn/ho-so/ong-to-lam-C000725.html",
-                "title": "Ông Tô Lâm - Tổng bí thư, Chủ tịch nước Tô Lâm",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "tayninh.gov.vn",
-                "url": "https://tayninh.gov.vn/dai-hoi-dang-bo-cac-cap/tom-tat-tieu-su-dong-chi-to-lam-tong-bi-thu-ban-chap-hanh-trung-uong-dang-cong-san-viet-nam-khoa-1044582",
-                "title": "Tóm tắt tiểu sử đồng chí Tô Lâm, Tổng Bí thư Ban chấp hành Trung ương ...",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "nhandan.vn",
-                "url": "https://nhandan.vn/tom-tat-tieu-su-dong-chi-to-lam-tong-bi-thu-ban-chap-hanh-trung-uong-dang-cong-san-viet-nam-khoa-xiv-post938986.html",
-                "title": "Tóm tắt tiểu sử đồng chí Tô Lâm, Tổng Bí thư Ban Chấp hành Trung ương ...",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "en.wikipedia.org",
-                "url": "https://en.wikipedia.org/wiki/Ho_Chi_Minh",
-                "title": "Ho Chi Minh - Wikipedia",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "en.wikipedia.org",
-                "url": "https://en.wikipedia.org/wiki/2011_in_Vietnam",
-                "title": "2011 in Vietnam - Wikipedia",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "de.wikipedia.org",
-                "url": "https://de.wikipedia.org/wiki/Ho_Chi_Minh",
-                "title": "Hồ Chí Minh – Wikipedia",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "de.wikipedia.org",
-                "url": "https://de.wikipedia.org/wiki/Vietnamesische_Sprache",
-                "title": "Vietnamesische Sprache – Wikipedia",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "pt.wikipedia.org",
-                "url": "https://pt.wikipedia.org/wiki/Ho_Chi_Minh",
-                "title": "Ho Chi Minh – Wikipédia, a enciclopédia livre",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "xaydungchinhsach.chinhphu.vn",
-                "url": "https://xaydungchinhsach.chinhphu.vn/tom-tat-tieu-su-dong-chi-dai-tuong-to-lam-119240506085734395.htm",
-                "title": "TIỂU SỬ TỔNG BÍ THƯ, CHỦ TỊCH NƯỚC TÔ LÂM",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "vietnamplus.vn",
-                "url": "https://www.vietnamplus.vn/tom-tat-tieu-su-dong-chi-to-lam-tong-bi-thu-ban-chap-hanh-trung-uong-dang-cong-san-viet-nam-khoa-xiv-post1090330.vnp",
-                "title": "Tổng Bí thư Tô Lâm: Tiểu sử và hành trình công tác | Vietnam+ ...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "qdnd.vn",
-                "url": "https://www.qdnd.vn/chinh-tri/tin-tuc/tom-tat-tieu-su-dong-chi-to-lam-tong-bi-thu-ban-chap-hanh-trung-uong-dang-cong-san-viet-nam-788035",
-                "title": "Tóm tắt tiểu sử đồng chí Tô Lâm, Tổng Bí thư Ban Chấp hành ...",
-                "is_whitelist": true,
-                "is_trusted": true
-            }
-        ],
-        "explanation": "SAI SỰ THẬT: Tuyên bố ghi năm 1965 nhưng các nguồn chỉ đề cập năm 1957, 2011. Thông tin cụ thể (ngày tháng/số liệu) trong tuyên bố không khớp với dữ liệu từ các nguồn tra cứu chính thống.",
-        "graph": {
-            "nodes": [
-                {
-                    "id": "1",
-                    "label": "481965",
-                    "type": "concept"
-                }
-            ],
-            "edges": [],
-            "has_conflict": false,
-            "conflict_message": ""
-        }
-    },
-    "tổng bí thư tô lâm sinh 482026": {
-        "claim": "Tổng bí thư Tô Lâm sinh 4/8/2026",
-        "verdict": "FALSE",
-        "confidence": 90,
-        "sources": [
-            {
-                "domain": "bbc.com",
-                "url": "https://www.bbc.com/vietnamese/articles/cz04yg347e5o",
-                "title": "Tổng Bí thư, Chủ tịch nước Tô Lâm: cởi mở... - BBC News Tiếng Việt",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "youtube.com",
-                "url": "https://www.youtube.com/watch?v=2G-1s4AlUuU",
-                "title": "Toàn cảnh nghi thức trong lễ đón Tổng Bí thư, Chủ tịch nước Tô Lâm...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "nhandan.vn",
-                "url": "https://nhandan.vn/tong-bi-thu-to-lam-thanh-nien-can-noi-it-lam-nhieu-viec-dang-lam-phai-quyet-lam-bang-duoc-post851118.html",
-                "title": "Tổng Bí thư Tô Lâm: Thanh niên cần \"nói ít làm nhiều\", \"việc đáng...",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "vtv.vn",
-                "url": "https://vtv.vn/tong-bi-thu-chu-tich-nuoc-to-lam-va-tong-thong-sri-lanka-gap-go-bao-chi-100260508133819118.htm",
-                "title": "Tổng Bí thư, Chủ tịch nước Tô Lâm và Tổng thống Sri Lanka gặp gỡ...",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "vietnamplus.vn",
-                "url": "https://www.vietnamplus.vn/le-don-trong-the-tong-bi-thu-chu-tich-nuoc-to-lam-tham-cap-nha-nuoc-sri-lanka-post1109262.vnp",
-                "title": "Lễ đón trọng thể Tổng Bí thư, Chủ tịch nước Tô Lâm thăm cấp Nhà...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "id.wikipedia.org",
-                "url": "https://id.wikipedia.org/wiki/Ho_Chi_Minh",
-                "title": "Ho Chi Minh - Wikipedia bahasa Indonesia, ensiklopedia bebas",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "pt.wikipedia.org",
-                "url": "https://pt.wikipedia.org/wiki/Ho_Chi_Minh",
-                "title": "Ho Chi Minh – Wikipédia, a enciclopédia livre",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "fr.wikipedia.org",
-                "url": "https://fr.wikipedia.org/wiki/Fonction_hyperbolique",
-                "title": "Fonction hyperbolique — Wikipédia",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "vietnammonpaysnatal.fr",
-                "url": "https://www.vietnammonpaysnatal.fr/thien-vien-truc-lam-tra-vinh/",
-                "title": "Thiền viện Trúc Lâm (Trà Vinh)",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "vn.chanpureland.org",
-                "url": "https://vn.chanpureland.org/",
-                "title": "Kênh Tiếng Việt của Tổ Chức",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "vi.wikipedia.org",
-                "url": "https://vi.wikipedia.org/wiki/Tô_Lâm",
-                "title": "Tô Lâm – Wikipedia tiếng Việt",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "xaydungchinhsach.chinhphu.vn",
-                "url": "https://xaydungchinhsach.chinhphu.vn/tom-tat-tieu-su-dong-chi-dai-tuong-to-lam-119240506085734395.htm",
-                "title": "TIỂU SỬ TỔNG BÍ THƯ, CHỦ TỊCH NƯỚC TÔ LÂM",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "nhandan.vn",
-                "url": "https://nhandan.vn/tom-tat-tieu-su-dong-chi-to-lam-tong-bi-thu-ban-chap-hanh-trung-uong-dang-cong-san-viet-nam-khoa-xiv-post938986.html",
-                "title": "Tóm tắt tiểu sử đồng chí Tô Lâm, Tổng Bí thư Ban Chấp hành ...",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "baotintuc.vn",
-                "url": "https://baotintuc.vn/chinh-tri/tieu-su-tom-tat-cua-tong-bi-thu-chu-tich-nuoc-to-lam-20260407102203890.htm",
-                "title": "Tiểu sử tóm tắt của Tổng Bí thư, Chủ tịch nước Tô Lâm",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "vtv8.vtv.vn",
-                "url": "https://vtv8.vtv.vn/tom-tat-tieu-su-tong-bi-thu-chu-tich-nuoc-to-lam-107260407123950103.htm",
-                "title": "Tóm tắt tiểu sử Tổng Bí thư, Chủ tịch nước Tô Lâm",
-                "is_whitelist": true,
-                "is_trusted": true
-            }
-        ],
-        "explanation": "SAI SỰ THẬT: Tuyên bố ghi ngày 4/8/2026 nhưng các nguồn cho thấy ngày 8/5/2026. Thông tin cụ thể (ngày tháng/số liệu) trong tuyên bố không khớp với dữ liệu từ các nguồn tra cứu chính thống.",
-        "graph": {
-            "nodes": [
-                {
-                    "id": "1",
-                    "label": "482026",
-                    "type": "concept"
-                }
-            ],
-            "edges": [],
-            "has_conflict": false,
-            "conflict_message": ""
-        }
-    },
-    "tổng bí thư tô lâm sinh 10 tháng 7 năm 1957": {
-        "claim": "Tổng bí thư Tô Lâm sinh 10 tháng 7 năm 1957",
+    "trung quốc viết bài hát về tổng bí thư nguyễn phú trọng": {
+        "claim": "Trung Quốc viết bài hát về Tổng bí thư Nguyễn Phú Trọng",
         "verdict": "VERIFIED",
         "confidence": 95,
         "sources": [
             {
-                "domain": "vi.wikipedia.org",
-                "url": "https://vi.wikipedia.org/wiki/Tô_Lâm",
-                "title": "Tô Lâm - Wikipedia tiếng Việt",
+                "domain": "vietnam.vn",
+                "url": "https://www.vietnam.vn/bai-hat-ve-tong-bi-thu-nguyen-phu-trong-cham-moc-trieu-view-sau-2-ngay-phat-hanh",
+                "title": "Bài hát về Tổng Bí thư Nguyễn Phú Trọng chạm mốc triệu view sau...",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "baolaocai.vn",
+                "url": "https://baolaocai.vn/bai-hat-ve-tong-bi-thu-nguyen-phu-trong-cham-moc-trieu-view-sau-2-ngay-phat-hanh-post387674.html",
+                "title": "Bài hát về Tổng Bí thư Nguyễn Phú Trọng chạm mốc triệu view sau...",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "tuoitre.vn",
+                "url": "https://tuoitre.vn/tong-bi-thu-nguyen-phu-trong-tham-trung-quoc-e1134.htm",
+                "title": "Tổng bí thư Nguyễn Phú Trọng thăm Trung Quốc",
                 "is_whitelist": true,
                 "is_trusted": true
             },
             {
-                "domain": "xaydungchinhsach.chinhphu.vn",
-                "url": "https://xaydungchinhsach.chinhphu.vn/tom-tat-tieu-su-dong-chi-dai-tuong-to-lam-119240506085734395.htm",
-                "title": "TIỂU SỬ TỔNG BÍ THƯ, CHỦ TỊCH NƯỚC TÔ LÂM - chinhphu.vn",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "nhandan.vn",
-                "url": "https://nhandan.vn/tom-tat-tieu-su-dong-chi-to-lam-tong-bi-thu-ban-chap-hanh-trung-uong-dang-cong-san-viet-nam-khoa-xiv-post938986.html",
-                "title": "Tóm tắt tiểu sử đồng chí Tô Lâm, Tổng Bí thư Ban Chấp hành Trung ương ...",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "vpctn.gov.vn",
-                "url": "https://vpctn.gov.vn/danh-muc-trang-chu/lanh-dao-nha-nuoc/chu-tich-pho-chu-tich-qua-cac-nhiem-ky/ong-to-lam.html",
-                "title": "Ông Tô Lâm - vpctn.gov.vn",
-                "is_whitelist": true,
-                "is_trusted": true
-            },
-            {
-                "domain": "baotintuc.vn",
-                "url": "https://baotintuc.vn/chinh-tri/tom-tat-tieu-su-dong-chi-to-lam-20240803105111734.htm",
-                "title": "Tóm tắt tiểu sử đồng chí Tô Lâm - baotintuc.vn",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "forum.cardano.org",
-                "url": "https://forum.cardano.org/c/ti-ng-vi-t/t-ng-h-p/193",
-                "title": "Latest TỔNG HỢP topics - Cardano Forum",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "guerillera.hypotheses.org",
-                "url": "https://guerillera.hypotheses.org/sources-biet-dong-sai-gon",
-                "title": "Sources Biệt động Sài Gòn | Guérillera",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "khoidiem.org",
-                "url": "https://www.khoidiem.org/?m=202202",
-                "title": "February | 2022 | Khởi Điểm",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "vn.chanpureland.org",
-                "url": "https://vn.chanpureland.org/",
-                "title": "Kênh Tiếng Việt của Tổ Chức",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "chuagiachoangdc.org",
-                "url": "https://chuagiachoangdc.org/tin-t7913c.html",
-                "title": "Tin Tức",
+                "domain": "baolamdong.vn",
+                "url": "https://baolamdong.vn/toan-van-bai-viet-cua-chu-tich-nuoc-to-lam-ve-tong-bi-thu-nguyen-phu-trong-223033.html",
+                "title": "Toàn văn bài viết của Chủ tịch nước Tô Lâm về Tổng Bí thư Nguyễn...",
                 "is_whitelist": false,
                 "is_trusted": false
             },
             {
                 "domain": "bbc.com",
-                "url": "https://www.bbc.com/vietnamese",
-                "title": "Tin chính - BBC News Tiếng Việt",
+                "url": "https://www.bbc.com/vietnamese/articles/cy79133w99wo",
+                "title": "Tổng Bí thư Nguyễn Phú Trọng: 'sau Hồ Chí... - BBC News Tiếng Việt",
                 "is_whitelist": true,
                 "is_trusted": true
             },
             {
-                "domain": "vnexpress.net",
-                "url": "https://vnexpress.net/the-gioi",
-                "title": "Tin Thế giới, thời sự quốc tế, phân tích an ninh, quân sự - VnExpress",
+                "domain": "vi.wikipedia.org",
+                "url": "https://vi.wikipedia.org/wiki/Nghĩa_dũng_quân_tiến_hành_khúc",
+                "title": "Nghĩa dũng quân tiến hành khúc - Wikipedia tiếng Việt",
                 "is_whitelist": true,
                 "is_trusted": true
             },
             {
-                "domain": "nhatbaovanhoa.com",
-                "url": "https://www.nhatbaovanhoa.com/p192a12474/7/dan-bieu-michelle-steel-len-an-tt-biden-vi-chuc-mung-ong-to-lam-nhan-chuc-tong-bi-thu",
-                "title": "Dân biểu Michelle Steel lên án TT Biden vì chúc mừng ông Tô Lâm...",
+                "domain": "prepedu.com",
+                "url": "https://prepedu.com/vi/blog/bai-hat-tieng-trung",
+                "title": "50 bài hát tiếng Trung giúp nâng cao vốn từ vựng nhanh chóng",
                 "is_whitelist": false,
                 "is_trusted": false
             },
             {
-                "domain": "mattran.org.vn",
-                "url": "https://mattran.org.vn/tin-tuc/tong-bi-thu-to-lam-bat-tay-ngay-vao-cong-viec-bao-dam-su-lien-tuc-thong-suot-69462.html",
-                "title": "Tổng Bí thư Tô Lâm: Bắt tay ngay vào công việc, bảo đảm sự liên tục...",
+                "domain": "chinesehsk.edu.vn",
+                "url": "https://chinesehsk.edu.vn/hoc-tieng-trung-qua-bai-hat-giay-ghi-chu-tam-nguyen/",
+                "title": "Học Tiếng Trung Qua Bài Hát \"Giấy Ghi Chú Tâm Nguyện\"",
                 "is_whitelist": false,
                 "is_trusted": false
             },
             {
-                "domain": "nhandan.vn",
-                "url": "https://nhandan.vn/anh-tong-bi-thu-to-lam-va-phu-nhan-len-duong-tham-cap-nha-nuoc-dai-han-dan-quoc-post899769.html",
-                "title": "[Ảnh] Tổng Bí thư Tô Lâm và Phu nhân lên đường thăm cấp Nhà...",
+                "domain": "youtube.com",
+                "url": "https://www.youtube.com/playlist?list=PL15udYlCrEl1TJ0UhDwJR9TZtJtMKC8TQ",
+                "title": "CGE - Học Tiếng Trung Qua Bài Hát - YouTube",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "chanhtuoi.com",
+                "url": "https://chanhtuoi.com/nhac-trung-quoc-hay-p6587.html",
+                "title": "Top bài hát, nhạc Trung Quốc hay nhất mọi thời đại, cực hot",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "baolamdong.vn",
+                "url": "https://baolamdong.vn/thong-tin-chi-tiet-ve-tac-pham-truyen-ve-tong-bi-thu-nguyen-phu-trong-232464.html",
+                "title": "Thông tin chi tiết về tác phẩm 'Truyện về Tổng Bí thư Nguyễn Phú...",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "dantocmiennui.baotintuc.vn",
+                "url": "https://dantocmiennui.baotintuc.vn/ra-mat-tac-pham-truyen-ve-tong-bi-thu-nguyen-phu-trong-post356045.html",
+                "title": "Ra mắt tác phẩm \"Truyện về Tổng Bí thư Nguyễn Phú Trọng\"",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "24h.com.vn",
+                "url": "https://www.24h.com.vn/tin-tuc-trong-ngay/tong-bi-thu-nguyen-phu-trong-trong-long-ban-be-quoc-te-c46a1587166.html",
+                "title": "Tổng Bí thư Nguyễn Phú Trọng trong lòng bạn bè quốc tế",
+                "is_whitelist": false,
+                "is_trusted": false
+            },
+            {
+                "domain": "bbc.com",
+                "url": "https://www.bbc.com/vietnamese/articles/ckg2n9j910zo",
+                "title": "Chủ tịch nước, Tổng Bí thư Tô Lâm đi Trung... - BBC News Tiếng Việt",
                 "is_whitelist": true,
                 "is_trusted": true
             }
         ],
-        "explanation": "Tuyên bố 'Tổng bí thư Tô Lâm sinh 10 tháng 7 năm 1957' được tìm thấy và xác minh qua nguồn chính thống đáng tin cậy.",
+        "explanation": "Tuyên bố được xác minh: 4 nguồn chính thống xác nhận trọng điểm cụ thể (khớp trọng điểm: 100%, tổng 14 nguồn).",
         "graph": {
             "nodes": [
                 {
                     "id": "1",
-                    "label": "Tháng",
+                    "label": "Trung",
                     "type": "concept"
-                }
-            ],
-            "edges": [],
-            "has_conflict": false,
-            "conflict_message": ""
-        }
-    },
-    "kỳ nghỉ tiếp theo giá tốt hơn tiết kiệm lên đến 25 đặt ưu đãi tốt nhất ngay trên ứng dụng hilton hoặc hiltoncom": {
-        "claim": "Kỳ nghỉ tiếp theo, giá tốt hơn. Tiết kiệm lên đến 25%! \n Đặt ưu đãi tốt nhất ngay trên ứng dụng Hilton hoặc hilton.com.",
-        "verdict": "VERIFIED",
-        "confidence": 90,
-        "sources": [
-            {
-                "domain": "hilton.com",
-                "url": "https://www.hilton.com/vi/hilton-honors/support-faq/",
-                "title": "Giới thiệu về Hilton Honors - Câu hỏi thường gặp và Chi tiết về...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "agoda.com",
-                "url": "https://www.agoda.com/vi-vn/hilton-london-euston-hotel/hotel/london-gb.html",
-                "title": "Hilton London Euston Hotel, Bloomsbury, London",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "viettourist.com",
-                "url": "https://viettourist.com/blog/viettourist-tang-mien-phi-the-du-lich-he-tri-gia-den-3-trieu-pid-1997.html",
-                "title": "Viettourist tặng miễn phí thẻ du lịch hè – trị giá đến 3 triệu",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "phongvevietmy.com",
-                "url": "https://phongvevietmy.com/ve-noi-dia/bamboo-airways-uu-dai-valentine-giam-den-12",
-                "title": "Bamboo Airways ưu đãi Valentine giảm đến 12% | Phòng Vé Việt Mỹ",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "furamavietnam.com",
-                "url": "https://furamavietnam.com/vi/nghi-duong-dai-ngay-tai-da-nang-xu-huong-du-lich-duoc-yeu-thich-hien-nay/",
-                "title": "Nghỉ Dưỡng Dài Ngày Tại Đà Nẵng – Xu Hướng Du Lịch Được Yêu...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "traveloka.com",
-                "url": "https://www.traveloka.com/vi-vn/hotel",
-                "title": "Đặt phòng khách sạn giá rẻ - Giá tốt nhất tại Traveloka",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "trivago.vn",
-                "url": "https://www.trivago.vn/",
-                "title": "trivago.vn - So sánh giá phòng khách sạn khắp thế giới",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "go2joy.vn",
-                "url": "https://go2joy.vn/vi-vn",
-                "title": "Go2Joy - Đặt phòng khách sạn theo giờ",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "skyscanner.com.vn",
-                "url": "https://www.skyscanner.com.vn/hotels",
-                "title": "So sánh giá và đặt phòng khách sạn, resort và chỗ nghỉ trên toàn cầu ...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "booking.com",
-                "url": "https://www.booking.com/index.vi.html",
-                "title": "Tìm chỗ nghỉ tiếp theo - Booking.com",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "movenpickresortcamranh.com",
-                "url": "https://movenpickresortcamranh.com/vi/kham-pha-ky-nghi-cam-ranh/",
-                "title": "Ưu Đãi Kỳ Nghỉ Đến 25% | Mövenpick Resort Cam Ranh",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "hilton.com",
-                "url": "https://www.hilton.com/vi/",
-                "title": "Khách sạn của Hilton - Đặt phòng ở mức giá tốt nhất với mọi ...",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "anantara.com",
-                "url": "https://www.anantara.com/vi/quy-nhon/offers/stay-longer-special",
-                "title": "Ưu đãi Đặc biệt Kỳ nghỉ Dài hơn| Anantara Quy Nhon VillasƯu đãi và giảm giá khi đặt phòng từ khách sạn sang trọng đến ...Ưu đãi kỳ nghỉ và chuyến đi phút chót - | Expedia",
-                "is_whitelist": false,
-                "is_trusted": false
-            },
-            {
-                "domain": "vi.hotels.com",
-                "url": "https://vi.hotels.com/",
-                "title": "Ưu đãi và giảm giá khi đặt phòng từ khách sạn sang trọng đến ...",
-                "is_whitelist": false,
-                "is_trusted": false
-            }
-        ],
-        "explanation": "Tuyên bố được xác minh dựa trên độ trùng khớp cao (80%) từ các nguồn internet.",
-        "graph": {
-            "nodes": [
-                {
-                    "id": "1",
-                    "label": "25%",
-                    "type": "quantity"
                 },
                 {
                     "id": "2",
-                    "label": "Hilton",
+                    "label": "Nguyễn",
                     "type": "concept"
                 },
                 {
                     "id": "3",
-                    "label": "Hiltoncom",
+                    "label": "Trọng",
                     "type": "concept"
                 }
             ],

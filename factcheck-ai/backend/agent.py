@@ -124,14 +124,22 @@ Trả lời ĐÚNG format JSON (không markdown):
             return self._generate_simulated_verdict(claim, evidence, {"nodes": [], "edges": [], "has_conflict": False, "conflict_message": ""})
 
         # Build evidence context string
-        evidence_text = ""
+        trusted_ev = [ev for ev in evidence[:12] if ev.get('is_trusted')]
+        untrusted_ev = [ev for ev in evidence[:12] if not ev.get('is_trusted')]
+        trusted_ev_count = len(trusted_ev)
+        untrusted_ev_count = len(untrusted_ev)
+        total_ev_count = trusted_ev_count + untrusted_ev_count
+        trusted_ratio_pct = int(trusted_ev_count / max(1, total_ev_count) * 100)
+
+        evidence_text = f"\n[THỐNG KÊ NGUỒN: {total_ev_count} tổng | {trusted_ev_count} CHÍNH THỐNG [TRUSTED] | {untrusted_ev_count} CHƯA XÁC MINH [UNVERIFIED] | Tỉ lệ chính thống: {trusted_ratio_pct}%]\n"
         for i, ev in enumerate(evidence[:12], 1):
-            evidence_text += f"\n--- Nguồn {i} ({ev['domain']}) {'[TRUSTED]' if ev.get('is_trusted') else '[UNVERIFIED]'} ---\n"
+            evidence_text += f"\n--- Nguồn {i} ({ev['domain']}) {'[TRUSTED ✅]' if ev.get('is_trusted') else '[UNVERIFIED ⚠️]'} ---\n"
             evidence_text += f"Title: {ev['title']}\n"
             evidence_text += f"Snippet: {ev['snippet']}\n"
             # Add full page content if available
             if page_contents and ev['url'] in page_contents and page_contents[ev['url']]:
                 evidence_text += f"Nội dung chi tiết: {page_contents[ev['url']][:1500]}\n"
+
 
         if query_type == "FACTUAL_SIMPLE":
             prompt = f"""Bạn là FactCheckAI — trợ lý tra cứu thông tin thông minh và CHÍNH XÁC TUYỆT ĐỐI.
@@ -164,13 +172,14 @@ BƯỚC 3: SO SÁNH CHÉO TỪNG CHI TIẾT:
 - Phải kiểm tra TỪNG con số, TỪNG ngày tháng, TỪNG chi tiết cụ thể
 - Nếu ngày sinh, năm sinh, số liệu KHÔNG KHỚP → verdict phải là "FALSE"
 - Nếu không tìm thấy dữ liệu cụ thể để so sánh → verdict phải là "PENDING"
+- QUY TẮC NGUỒN TIN: Nếu tỉ lệ nguồn chính thống [TRUSTED] < 20% hoặc bằng 0% → verdict phải là "PENDING" (cần xem xét lại), không được VERIFIED dù nhiều nguồn khác đề cập
 
 Trả lời ĐÚNG format JSON (không markdown):
 {{
     "claim": "{claim}",
     "verdict": "VERIFIED" hoặc "FALSE" hoặc "PENDING",
     "confidence": <0-100>,
-    "explanation": "Phân tích chi tiết: liệt kê dữ liệu trong tuyên bố vs dữ liệu trong bằng chứng, chỉ rõ khớp hay không khớp.",
+    "explanation": "Phân tích chi tiết: liệt kê dữ liệu trong tuyên bố vs dữ liệu trong bằng chứng, chỉ rõ khớp hay không khớp. Nêu rõ số nguồn chính thống vs chưa xác minh.",
     "direct_answer": "Câu trả lời ngắn gọn nhất, nêu rõ thông tin đúng nếu tuyên bố sai.",
     "sources": [tên các nguồn domain đã sử dụng]
 }}"""
@@ -185,31 +194,47 @@ Bằng chứng thu thập:
 
 QUY TRÌNH BẮT BUỘC — PHẢI TUÂN THỦ TỪNG BƯỚC:
 
-BƯỚC 1: Trích xuất MỌI DỮ LIỆU CỤ THỂ từ tuyên bố:
+BƯỚC 1: Xác định loại tuyên bố:
+- Nếu tuyên bố mô tả HOẠT ĐỘNG CỤ THỂ của một người vào một NGÀY CỤ THỂ tại một ĐỊA ĐIỂM CỤ THỂ
+  (ví dụ: "ngày X, ông Y làm việc tại Z") → đây là tuyên bố về SỰ KIỆN NGÀY CỤ THỂ.
+  ⚠️ Loại này CHỈ được VERIFIED nếu có nguồn báo chí/chính thống xác nhận TRỰC TIẾP sự kiện đó vào đúng ngày đó.
+  Nếu KHÔNG có bằng chứng trực tiếp → verdict = "FALSE" hoặc "PENDING".
+
+BƯỚC 2: Trích xuất MỌI DỮ LIỆU CỤ THỂ từ tuyên bố:
 - Tên người, tổ chức, địa điểm
-- Ngày tháng năm, mốc thời gian CỤ THỂ (ví dụ: sinh ngày X, năm Y)
+- Ngày tháng, mốc thời gian CỤ THỂ
 - Số liệu, con số cụ thể
 - Chức vụ, vai trò, sự kiện
 
-BƯỚC 2: Trích xuất DỮ LIỆU TƯƠNG ỨNG từ bằng chứng:
+BƯỚC 3: Trích xuất DỮ LIỆU TƯƠNG ỨNG từ bằng chứng:
 - Tìm CHÍNH XÁC thông tin tương ứng trong từng nguồn bằng chứng
-- Nếu nguồn nói "sinh ngày 10/7/1957" mà tuyên bố nói "sinh 4/8/1965" → GHI NHẬN sự khác biệt
+- Ghi rõ nguồn nào nói gì
 
-BƯỚC 3: SO SÁNH CHÉO TỪNG CHI TIẾT CỤ THỂ:
-- So sánh TỪNG con số, TỪNG ngày tháng giữa tuyên bố và bằng chứng
+BƯỚC 4: SO SÁNH CHÉO TỪNG CHI TIẾT CỤ THỂ:
+- So sánh TỪNG con số, TỪNG ngày tháng, TỪNG địa điểm
 - Chỉ 1 chi tiết sai = toàn bộ tuyên bố là FALSE
 
 ⚠️ QUY TẮC NGHIÊM NGẶT — KHÔNG ĐƯỢC VI PHẠM:
-1. KHÔNG BAO GIỜ xác nhận VERIFIED chỉ vì chủ đề/tên người xuất hiện trong nguồn tin cậy
-2. Phải kiểm tra TỪNG chi tiết: ngày sinh, năm, số liệu, chức vụ, địa điểm
-3. Nếu BẤT KỲ con số hoặc ngày tháng nào KHÔNG KHỚP → verdict = "FALSE"
-4. Nếu các nguồn chỉ đề cập chủ đề chung mà KHÔNG xác nhận chi tiết cụ thể → verdict = "PENDING"
+1. KHÔNG BAO GIỜ xác nhận VERIFIED chỉ vì tên người/chủ đề xuất hiện trong nguồn tin
+2. Với tuyên bố SỰ KIỆN NGÀY CỤ THỂ: nếu KHÔNG có nguồn nào xác nhận sự kiện đó xảy ra đúng ngày đó → "FALSE" hoặc "PENDING"
+3. Nếu BẤT KỲ ngày tháng, địa điểm hoặc số liệu nào KHÔNG KHỚP → verdict = "FALSE"
+4. Nguồn chỉ đề cập chủ đề chung, không xác nhận chi tiết cụ thể → verdict = "PENDING"
 5. VERIFIED chỉ khi có bằng chứng TRỰC TIẾP xác nhận TỪNG chi tiết trong tuyên bố
+6. QUY TẮC NGUỒN TIN QUAN TRỌNG:
+   - Nếu 0 nguồn [TRUSTED ✅] → verdict = "PENDING" (⚠️ Cần xem xét lại — không có báo chính thống xác nhận)
+   - Nếu tỉ lệ [TRUSTED ✅] < 20% trong khi có nhiều nguồn [UNVERIFIED ⚠️] → verdict = "PENDING"
+   - Nhiều nguồn UNVERIFIED đề cập KHÔNG đồng nghĩa với VERIFIED
+7. PHÂN BIỆT CHỦ ĐỀ vs TRỌNG ĐIỂM:
+   - Nguồn chính thống đề cập CHỦ ĐỀ (người/tổ chức liên quan) nhưng KHÔNG đề cập HÀNH ĐỘNG/CHI TIẾT CỤ THỂ trong tuyên bố → verdict = "PENDING"
+   - Ví dụ: Tuyên bố "Trung Quốc viết BÀI HÁT về ông X" + Nguồn chính thống chỉ nói "Trung Quốc ca ngợi ông X" → PENDING (không xác nhận chi tiết "bài hát")
+   - Phải tìm nguồn xác nhận ĐÚNG chi tiết đặc thù: hành động, sự kiện, số liệu, địa điểm cụ thể
 
 Ví dụ:
-- Tuyên bố "A sinh ngày 4/8/1965" + Bằng chứng nói "A sinh ngày 10/7/1957" → FALSE (ngày sinh sai)
-- Tuyên bố "Dân số X là 100 triệu" + Bằng chứng nói "95 triệu" → FALSE (số liệu sai)
-- Tuyên bố "A sinh ngày 4/8/1961" + Bằng chứng xác nhận "4/8/1961" → VERIFIED
+- Tuyên bố "Trung Quốc viết bài hát về ông X" + [TRUSTED] chỉ nói "Trung Quốc ca ngợi ông X" → PENDING (chủ đề đúng nhưng trọng điểm "bài hát" không được xác nhận)
+- Tuyên bố "Ngày 11/5/2026 ông A làm việc tại Huế" + Không có nguồn nào xác nhận → PENDING hoặc FALSE
+- Tuyên bố "A sinh ngày 4/8/1965" + Bằng chứng nói "sinh 10/7/1957" → FALSE
+- Tuyên bố "Dân số X là 100 triệu" + Bằng chứng nói "95 triệu" → FALSE
+
 
 Trả lời ĐÚNG format JSON (không markdown):
 {{
@@ -353,9 +378,45 @@ Trả lời ĐÚNG format JSON (không markdown):
             claim_words = set(claim_lower.split())
 
         total_snippets = " ".join([ev.get("snippet", "").lower() + " " + ev.get("title", "").lower() for ev in evidence])
+        trusted_snippets = " ".join([ev.get("snippet", "").lower() + " " + ev.get("title", "").lower() for ev in evidence if ev.get("is_trusted", False)])
 
+        # Overall topic match (against all sources)
         match_count = sum(1 for word in claim_words if word in total_snippets)
         match_ratio = match_count / max(1, len(claim_words))
+
+        # ─── SPECIFIC CLAIM KEYWORD EXTRACTION ──────────────────────
+        # Vietnamese stopwords (subject/filler words that are NOT the core claim)
+        vi_stopwords = {
+            'là', 'và', 'của', 'có', 'trong', 'với', 'tại', 'từ', 'đến', 'về', 'cho',
+            'một', 'các', 'những', 'này', 'đó', 'được', 'đã', 'sẽ', 'đang', 'không',
+            'cũng', 'như', 'khi', 'vào', 'ra', 'lên', 'theo', 'bởi', 'vì', 'nên', 'mà',
+            'hay', 'hoặc', 'nhưng', 'thì', 'rằng', 'để', 'rất', 'nhiều', 'ít', 'hơn',
+            'nhất', 'đây', 'kia', 'đấy', 'thế', 'vậy', 'nào', 'gì', 'ai', 'sao',
+            'the', 'and', 'or', 'of', 'in', 'at', 'on', 'to', 'for', 'with', 'that',
+            'this', 'was', 'are', 'is', 'has', 'have', 'had', 'not', 'but', 'from'
+        }
+
+        # "Specific claim words" = meaningful content words that form the core claim
+        # These are what MUST appear in trusted sources for verification
+        specific_claim_words = [
+            w for w in claim_lower.split()
+            if len(w) > 3 and w not in vi_stopwords
+        ]
+
+        # How well do trusted sources confirm the SPECIFIC CLAIM (not just topic)?
+        if trusted_snippets and specific_claim_words:
+            trusted_specific_hits = sum(1 for w in specific_claim_words if w in trusted_snippets)
+            trusted_specific_ratio = trusted_specific_hits / max(1, len(specific_claim_words))
+        else:
+            trusted_specific_ratio = 0.0
+
+        # How well do ALL sources (including untrusted) confirm the specific claim?
+        if total_snippets and specific_claim_words:
+            all_specific_hits = sum(1 for w in specific_claim_words if w in total_snippets)
+            all_specific_ratio = all_specific_hits / max(1, len(specific_claim_words))
+        else:
+            all_specific_ratio = 0.0
+
 
         has_debunk = any(kw in total_snippets for kw in [
             "tin giả", "sai sự thật", "bác bỏ", "cảnh báo", "fake news", 
@@ -426,11 +487,74 @@ Trả lời ĐÚNG format JSON (không markdown):
                 if date_mismatch:
                     break
 
-        # ─── VERDICT LOGIC ───────────────────────────────────────────
-        authoritative_mentions = any(
-            ev.get("is_trusted", False) and match_ratio > 0.6
-            for ev in evidence
+        # ─── DETECT "SPECIFIC DATE EVENT" CLAIMS ────────────────────
+        # e.g. "Ngày X/Y/Z, ông A làm việc tại B" — requires direct confirmation
+        specific_event_keywords = [
+            'làm việc', 'thăm', 'gặp', 'họp', 'dự', 'tham dự', 'phát biểu',
+            'ký kết', 'tiếp', 'thị sát', 'kiểm tra', 'thăm quan', 'tới thăm',
+            'đến thăm', 'công tác', 'chủ trì', 'khai mạc', 'bế mạc'
+        ]
+        # Detect: claim has a date/time AND a specific action verb AND a location
+        location_keywords = [
+            'tại', 'ở', 'thành phố', 'tỉnh', 'huyện', 'quận', 'xã', 'hà nội',
+            'huế', 'đà nẵng', 'hcm', 'hồ chí minh', 'cần thơ', 'hải phòng'
+        ]
+        has_specific_event = (
+            has_date_context and
+            any(kw in claim_lower for kw in specific_event_keywords) and
+            any(kw in claim_lower for kw in location_keywords)
         )
+
+        # For specific-event claims, check if any snippet DIRECTLY confirms the event on that date
+        event_directly_confirmed = False
+        if has_specific_event:
+            # Extract action keywords and location from claim
+            claim_action_words = [kw for kw in specific_event_keywords if kw in claim_lower]
+            claim_location_words = [kw for kw in location_keywords if kw in claim_lower]
+            # Look for both action AND location appearing together in the same snippet
+            for ev in evidence:
+                snip = (ev.get('snippet', '') + ' ' + ev.get('title', '')).lower()
+                if any(a in snip for a in claim_action_words) and any(l in snip for l in claim_location_words):
+                    # Also check date context is present in that snippet
+                    if date_patterns_claim:
+                        claim_date_norm = date_patterns_claim[0].replace('-', '/').replace('.', '/')
+                        snip_dates = [d.replace('-', '/').replace('.', '/') for d in re.findall(r'\d{1,2}[/\-.\.]\d{1,2}[/\-.\.]\d{4}', snip)]
+                        if claim_date_norm in snip_dates:
+                            event_directly_confirmed = True
+                            break
+                    else:
+                        # No date in claim but has action+location in snippet → partial confirmation
+                        event_directly_confirmed = True
+                        break
+
+        # ─── TRUSTED SOURCE RATIO CHECK ──────────────────────────────
+        trusted_sources = [ev for ev in evidence if ev.get("is_trusted", False)]
+        untrusted_sources = [ev for ev in evidence if not ev.get("is_trusted", False)]
+        total_sources = len(evidence)
+        trusted_count = len(trusted_sources)
+        untrusted_count = len(untrusted_sources)
+
+        # Ratio of trusted sources among all sources found
+        trusted_ratio = trusted_count / max(1, total_sources)
+
+        # "Many sources but few/no official ones" — suspicious pattern
+        many_sources_no_trusted = (total_sources >= 3 and trusted_count == 0)
+        many_sources_few_trusted = (total_sources >= 5 and trusted_ratio < 0.2)
+        low_trusted_coverage = many_sources_no_trusted or many_sources_few_trusted
+
+        # ─── VERDICT LOGIC ───────────────────────────────────────────
+        # Trusted sources must confirm the SPECIFIC claim keywords (not just the topic)
+        trusted_confirms_specifics = (
+            trusted_count > 0 and trusted_specific_ratio >= 0.5
+        )
+        # Trusted sources mention the topic/subject but NOT the specific claim detail
+        trusted_topic_only = (
+            trusted_count > 0 and
+            trusted_specific_ratio < 0.5 and
+            match_ratio > 0.4
+        )
+        # Specific claim details only appear in untrusted sources
+        untrusted_has_specifics = (all_specific_ratio >= 0.5)
 
         if not evidence:
             verdict, confidence = "PENDING", 50
@@ -442,26 +566,76 @@ Trả lời ĐÚNG format JSON (không markdown):
         elif date_mismatch:
             verdict, confidence = "FALSE", 90
             explanation = f"SAI SỰ THẬT: {mismatch_details} Thông tin cụ thể (ngày tháng/số liệu) trong tuyên bố không khớp với dữ liệu từ các nguồn tra cứu chính thống."
-        elif authoritative_mentions and not has_debunk and not date_mismatch:
-            # Only verify if we have date context AND the dates matched, OR no dates to check
+        elif has_specific_event and not event_directly_confirmed:
+            verdict, confidence = "PENDING", 55
+            action_list = ', '.join(claim_action_words[:2]) if claim_action_words else 'hoạt động'
+            explanation = (f"Tuyên bố mô tả một sự kiện CỤ THỂ ({action_list}) vào một ngày/thời điểm nhất định. "
+                          f"Không tìm thấy nguồn tin nào XÁC NHẬN TRỰC TIẾP sự kiện này xảy ra đúng như tuyên bố. "
+                          f"Thông tin không được xác minh — cần nguồn báo chí chính thống đưa tin trực tiếp.")
+        elif low_trusted_coverage and not has_debunk:
+            verdict, confidence = "PENDING", 52
+            if many_sources_no_trusted:
+                explanation = (
+                    f"⚠️ CẦN XEM XÉT LẠI: Tìm thấy {total_sources} nguồn đề cập nhưng "
+                    f"KHÔNG CÓ NGUỒN CHÍNH THỐNG NÀO xác nhận. "
+                    f"Thông tin chỉ xuất hiện trên {untrusted_count} nguồn chưa được xác minh. "
+                    f"Cần chờ báo chí chính thống hoặc cơ quan nhà nước xác nhận."
+                )
+            else:
+                explanation = (
+                    f"⚠️ CẦN XEM XÉT LẠI: Tìm thấy {total_sources} nguồn, "
+                    f"chỉ {trusted_count} nguồn chính thống ({int(trusted_ratio*100)}%). "
+                    f"Tỉ lệ nguồn tin cậy quá thấp — hãy tìm thêm từ báo chính thống."
+                )
+        elif trusted_topic_only and untrusted_has_specifics:
+            # CORE CASE: Trusted sources cover the TOPIC but NOT the specific claim detail
+            # e.g. trusted: "Trung Quốc ca ngợi ông X" but claim: "Trung Quốc VIẾT BÀI HÁT về ông X"
+            verdict, confidence = "PENDING", 55
+            explanation = (
+                f"⚠️ CẦN XEM XÉT LẠI: {trusted_count} nguồn chính thống chỉ đề cập đến "
+                f"CHỦ ĐỀ liên quan nhưng KHÔNG XÁC NHẬN trọng điểm cụ thể của tuyên bố "
+                f"(khớp trọng điểm với nguồn chính thống: {int(trusted_specific_ratio*100)}%). "
+                f"Thông tin trọng điểm chỉ có trên {untrusted_count} nguồn chưa được xác minh — "
+                f"đây là dấu hiệu của thông tin bị thêm thắt chi tiết sai so với thực tế."
+            )
+        elif trusted_confirms_specifics and not has_debunk and not date_mismatch:
+            # Trusted sources confirm the SPECIFIC claim
             if has_date_context and date_patterns_claim and not date_patterns_snippets:
-                # Claim has specific dates but NO dates found in snippets to confirm
                 verdict, confidence = "PENDING", 60
-                explanation = f"Tuyên bố chứa thông tin ngày tháng cụ thể nhưng không tìm được dữ liệu tương ứng để xác minh từ các nguồn."
+                explanation = f"Tuyên bố chứa ngày tháng cụ thể nhưng không tìm được dữ liệu tương ứng để xác minh."
             else:
                 verdict, confidence = "VERIFIED", 95
-                explanation = f"Tuyên bố '{claim}' được tìm thấy và xác minh qua nguồn chính thống đáng tin cậy."
-        elif match_ratio > 0.6 and not date_mismatch:
+                explanation = (
+                    f"Tuyên bố được xác minh: {trusted_count} nguồn chính thống xác nhận "
+                    f"trọng điểm cụ thể (khớp trọng điểm: {int(trusted_specific_ratio*100)}%, "
+                    f"tổng {total_sources} nguồn)."
+                )
+        elif match_ratio > 0.6 and trusted_confirms_specifics and not date_mismatch and not low_trusted_coverage:
             if has_date_context and date_patterns_claim and not date_patterns_snippets:
                 verdict, confidence = "PENDING", 60
                 explanation = f"Chủ đề khớp nhưng không tìm được dữ liệu ngày tháng cụ thể để xác nhận."
             else:
                 verdict = "VERIFIED"
                 confidence = min(int(70 + (match_ratio * 25)), 93)
-                explanation = f"Tuyên bố được xác minh dựa trên độ trùng khớp cao ({int(match_ratio*100)}%) từ các nguồn internet."
+                explanation = (
+                    f"Tuyên bố được xác minh: khớp chủ đề {int(match_ratio*100)}%, "
+                    f"khớp trọng điểm chính thống {int(trusted_specific_ratio*100)}% "
+                    f"({trusted_count}/{total_sources} nguồn chính thống)."
+                )
         else:
-            verdict, confidence = "PENDING", int(55 + (match_ratio * 15))
-            explanation = f"Chưa đủ bằng chứng xác thực. Độ trùng khớp: {int(match_ratio*100)}%."
+            verdict, confidence = "PENDING", int(50 + (match_ratio * 15))
+            if trusted_count > 0 and trusted_specific_ratio < 0.5:
+                explanation = (
+                    f"⚠️ CẦN XEM XÉT LẠI: {trusted_count} nguồn chính thống đề cập chủ đề "
+                    f"nhưng không xác nhận trọng điểm cụ thể "
+                    f"(khớp trọng điểm chính thống: {int(trusted_specific_ratio*100)}%). "
+                    f"Thông tin chưa được xác minh đầy đủ."
+                )
+            else:
+                explanation = (
+                    f"Chưa đủ bằng chứng xác thực. Độ khớp chủ đề: {int(match_ratio*100)}%. "
+                    f"Nguồn chính thống: {trusted_count}/{total_sources}."
+                )
 
         sources = [{"domain": ev["domain"], "url": ev["url"], "title": ev["title"],
                      "is_whitelist": ev.get("is_whitelist", False), "is_trusted": ev.get("is_trusted", False)}
